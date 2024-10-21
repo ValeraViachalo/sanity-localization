@@ -9,6 +9,12 @@ const nextConfig = {
         port: '',
         // pathname: '/account123/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'cdn.sanity.io',
+        port: '',
+        // pathname: '/account123/**',
+      },
     ],
   },
   sassOptions: {

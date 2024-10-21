@@ -6,7 +6,7 @@ import { PageHead } from "@/utils/PageHead/PageHead";
 const Home = ({ data }) => {
   return (
     <>
-      <PageHead data={data} />
+      {/* <PageHead data={data} /> */}
       <DataProvider url={URL_HOME}>
         <HomePage />
       </DataProvider>

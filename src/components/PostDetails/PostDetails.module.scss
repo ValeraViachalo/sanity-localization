@@ -1,0 +1,27 @@
+.post {
+  &_hero {
+    width: 100vw;
+    height: 100vh;
+
+    .bottom {
+      position: absolute;
+      z-index: 1;
+      bottom: 4vw;
+      left: 2vw;
+      background-color: #d6d6d654;
+      backdrop-filter: blur(2vw);
+      padding: 2vw;
+      border-radius: .4vw;
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+  .body {
+    padding: 2vw;
+
+    img {
+      width: 100%;
+    }
+  }
+}

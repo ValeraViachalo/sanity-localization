@@ -1,3 +1,4 @@
+import LocaleProvider from "@/lib/providers/LocaleProvider/LocaleProvider";
 import "@/styles/reset.scss";
 import { AnimatePresence } from "framer-motion";
 import Head from "next/head";
@@ -14,9 +15,11 @@ export default function App({ Component, pageProps, router }) {
       </Head>
 
       <QueryClientProvider client={queryC}>
-        <AnimatePresence mode="wait">
-          <Component key={router.route} {...pageProps} />
-        </AnimatePresence>
+        <LocaleProvider>
+          <AnimatePresence mode="wait">
+            <Component key={router.route} {...pageProps} />
+          </AnimatePresence>
+        </LocaleProvider>
       </QueryClientProvider>
     </div>
   );
