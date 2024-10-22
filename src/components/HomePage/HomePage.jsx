@@ -15,22 +15,24 @@ const HomePage = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    console.log(mainPage);
   }, []);
 
   return (
     <>
     <PageLayout className={s.home}>
-      {mainPage.map((currPost, i) => (
-        <Link href={`${lang === "ua" ? "ua" : ""}/post/${currPost.slug}`} key={i}>
-          <Image
-            width={400}
-            height={400}
-            src={currPost.mainImage}
-          />
-          <h2>{currPost.title}</h2>
-        </Link>
-      ))}
+      <div className={s.home_post_list}>
+        {mainPage.map((currPost, i) => (
+          <Link href={`${lang === "ua" ? "ua" : ""}/post/${currPost.slug}`} key={i} className={s.post_card}>
+            <Image
+              width={400}
+              height={400}
+              className={s.post_card__image}
+              src={currPost.mainImage}
+            />
+            <h2>{currPost.title}</h2>
+          </Link>
+        ))}
+      </div>
     </PageLayout>
     </>
   );

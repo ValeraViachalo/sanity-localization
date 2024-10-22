@@ -1,12 +1,12 @@
 import HomePage from "@/components/HomePage/HomePage";
-import { URL_HOME } from "@/lib/helpers/DataUrls";
+import { URL_HOME, URL_SEO_BASE } from "@/lib/helpers/DataUrls";
 import { DataProvider } from "@/lib/providers/DataProvider/DataProvider";
 import { PageHead } from "@/utils/PageHead/PageHead";
 
 const Home = ({ data }) => {
   return (
     <>
-      {/* <PageHead data={data} /> */}
+      <PageHead data={data.seo} />
       <DataProvider url={URL_HOME}>
         <HomePage />
       </DataProvider>
@@ -16,12 +16,27 @@ const Home = ({ data }) => {
 
 export default Home;
 
-export const getServerSideProps = async () => {
+export async function getServerSideProps() {
   try {
-    const response = await fetch(URL_HOME);
+    const response = await fetch(
+      URL_SEO_BASE,
+      {
+        cache: "no-cache",
+        revalidate: 100
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status} ${response.statusText}`);
+    }
+
     const data = await response.json();
+
+    console.log("DATA ===>", data)
+
     return { props: { data } };
   } catch (error) {
-    throw new Error(error.message);
+    console.error("Error fetching data:", error);
+    return { props: {} };
   }
-};
+}

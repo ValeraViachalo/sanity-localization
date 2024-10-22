@@ -6,3 +6,6 @@ export const URL_HEADER = URL_BASE + "/header.json"
 export const URL_HOME = URL_BASE + "getMainPageData"
 export const URL_HOME_UA = URL_BASE + "getMainPageData" + PAR_LANG_UA
 export const URL_POST = URL_BASE + "getPostData?slug="
+
+export const URL_SEO_BASE = URL_BASE + "getSeoData"
+export const URL_SEO_BASE_UA = URL_BASE + "getSeoData" + PAR_LANG_UA

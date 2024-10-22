@@ -5,14 +5,11 @@ import { DataProvider } from "@/lib/providers/DataProvider/DataProvider";
 import { PageHead } from "@/utils/PageHead/PageHead";
 import { usePathname } from "next/navigation";
 
-const Post = ({ data }) => {
-  const pathname = usePathname();
-
-
+const Post = ({ data, slug }) => {
   return (
     <>
-      {/* <PageHead data={data} /> */}
-      <DataProvider url={URL_POST + pathname.split("/post/")[1]}>
+      <PageHead data={data.post.seo} />
+      <DataProvider url={URL_POST + slug}>
         <PostDetails />
       </DataProvider>
     </>
@@ -26,7 +23,7 @@ export async function getServerSideProps(context) {
 
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/getPostData?slug=${slug}`,
+      `${URL_POST}${slug}`,
       {
         cache: "no-cache",
         revalidate: 100,
@@ -39,7 +36,7 @@ export async function getServerSideProps(context) {
 
     const data = await response.json();
 
-    return { props: { data } };
+    return { props: { data, slug } };
   } catch (error) {
     console.error("Error fetching data:", error);
     return { props: {} };

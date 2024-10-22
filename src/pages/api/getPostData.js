@@ -4,12 +4,26 @@ import { sanityClient } from "../../../sanity";
 const query = groq`
     *[_type == "post" && slug.current == $slug][0] {
       "mainImage": mainImage.asset->url,
-    "title": title[$language],
-    "author": author->{
-    "name": name[$language]
-  },
-  "body": body[$language]
-}
+      "title": title[$language],
+      "body": body[$language],
+      "author": author->{
+        "name": name[$language]
+      },
+      "seo": {
+        "metaTitle": coalesce(
+          seo.metaTitle[$language], 
+        *[_type == "defaultSeo"][0].seo.metaTitle[$language]
+        ),
+        "metaDescription": coalesce(
+          seo.metaDescription[$language],
+          *[_type == "defaultSeo"][0].seo.metaDescription[$language]
+        ),
+        "openGraphImage": coalesce(
+          seo.openGraphImage, 
+          *[_type == "defaultSeo"][0].seo.openGraphImage
+        ).asset -> url,
+      }
+    }
 `;
 
 export default async function handler(req, res) {
@@ -21,7 +35,10 @@ export default async function handler(req, res) {
 
   try {
     console.log(`Attempting to fetch data from Sanity for slug: ${slug}`);
-    const post = await sanityClient.fetch(query, { slug, language: language || "en" });
+    const post = await sanityClient.fetch(query, {
+      slug,
+      language: language || "en",
+    });
 
     if (!post) {
       console.log(`No data received from Sanity for slug: ${slug}`);

@@ -1,18 +1,15 @@
 import HomePage from "@/components/HomePage/HomePage";
 import PostDetails from "@/components/PostDetails/PostDetails";
-import { PAR_LANG_UA_ADD, URL_POST } from "@/lib/helpers/DataUrls";
+import { PAR_LANG_UA_ADD, URL_HOME, URL_POST } from "@/lib/helpers/DataUrls";
 import { DataProvider } from "@/lib/providers/DataProvider/DataProvider";
 import { PageHead } from "@/utils/PageHead/PageHead";
 import { usePathname } from "next/navigation";
 
-const Post = ({ data }) => {
-  const pathname = usePathname();
-
-
+const Post = ({ data, slug }) => {
   return (
     <>
-      {/* <PageHead data={data} /> */}
-      <DataProvider url={URL_POST + pathname.split("/post/")[1] + PAR_LANG_UA_ADD}>
+      <PageHead data={data.post.seo} />
+      <DataProvider url={URL_POST + slug + PAR_LANG_UA_ADD}>
         <PostDetails />
       </DataProvider>
     </>
@@ -26,7 +23,7 @@ export async function getServerSideProps(context) {
 
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/getPostData?slug=${slug + PAR_LANG_UA_ADD}`,
+      `${URL_POST + slug + PAR_LANG_UA_ADD}`,
       {
         cache: "no-cache",
         revalidate: 100,
@@ -39,7 +36,7 @@ export async function getServerSideProps(context) {
 
     const data = await response.json();
 
-    return { props: { data } };
+    return { props: { data, slug } };
   } catch (error) {
     console.error("Error fetching data:", error);
     return { props: {} };
